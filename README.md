@@ -2,8 +2,9 @@
 The aim is to abandon widely spaced keys (like Arrow Keys or CapsLock) through useful shorthands and therefore reduce the movement of the fingers on the keyboard.
 Until now it is optimized for german keyboards, feel free to change. 
 
-How to use: 
-CAPSLOCK 
+Provided Shorthands: 
+
+CAPSLOCK +
 + i: Arrow up
 + k: Arrow down
 + j: Arrow left
