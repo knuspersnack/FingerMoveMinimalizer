@@ -5,8 +5,9 @@ SetCapsLockState, AlwaysOff
 	keepCapsLockLoopRunning := true ;
 	
 	loop {
-		Input, variable, L1, {LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{BS}{CapsLock}{NumLock}{PrintScreen}{Pause}
-		if (variable = "j") {
+		Input, variable, L1, {Backspace}{LControl}{RControl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}{Del}{Ins}{BS}{CapsLock}{NumLock}{PrintScreen}{Pause}
+		if (variable = "j") 
+		{
 			if(GetKeyState("CapsLock","P")){
 				Send, {Left}
 			} else {
@@ -98,16 +99,6 @@ SetCapsLockState, AlwaysOff
 				Break
 			}
 		}
-		else if (variable = "w") 
-		{
-			if(GetKeyState("CapsLock","P")){
-				Send, {LCtrl Down}{Shift Down}{z}
-				Send, {LCtrl Up}{Shift Up}
-			} else {
-				Send, {w}
-				Break
-			}
-		}
 		else if (variable = "r") ; CTRL + WIN +LEFT 
 		{
 			if(GetKeyState("CapsLock","P")){
@@ -132,24 +123,55 @@ SetCapsLockState, AlwaysOff
 				Break
 			}
 		}
-		else if(keepCapsLockLoopRunning = false){
-			Break ; 
-		} 
-		else 
+		else if(keepCapsLockLoopRunning = false)
 		{
-			if(!GetKeyState("CapsLock","P")){
+			GetKeyState, state, CapsLock
+			if (state = "U")
+			{
+				SetCapsLockState, AlwaysOff ;
+				return ;
+			}
+			if(GetKeyState("LControl","P"))
+			{
+				Send {LControl Down} ;
+				Sleep, 100 ;
+			}
+			else if(GetKeyState("Backspace","P"))
+			{
+				Send {Backspace} ;
+			}
+			
+			if(variable != "") 
+			{	
 				Send, {%variable%} 
 			}
 			
+			Break ;
+		} 
+		else 
+		{
+
+			Break ;
 		}
 	}
 	return
 	
 ~CapsLock up::
 	keepCapsLockLoopRunning := false ;
-	Sleep, 100 ;
-	Send, {CapsLock up} ;
+	Send, {CapsLock}
 	return
+	
+~Backspace::
+	if(keepCapsLockLoopRunning = true){
+		keepCapsLockLoopRunning := false ;
+		Send, {Backspace} ;
+	}
+	return ;
+	
+~LControl::
+	keepCapsLockLoopRunning := false ;
+	return ;
+
 
 Return
 	
